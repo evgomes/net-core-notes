@@ -1,5 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using StickyNotesCore.API.Controllers.Configuration;
+using StickyNotesCore.API.Domain.Data.Contexts;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -40,16 +42,34 @@ namespace StickyNotesCore.API.Extensions
 			});
 		}
 
-		public static void AddInfrastructureDependencies(this IServiceCollection services, IConfiguration configuration)
-		{
-		}
-
 		public static void AddDatabaseDependencies(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddDbContext<StickyNotesContext>(options =>
+			{
+				options.UseSqlServer(configuration.GetConnectionString("StickyNotes"));
+			});
 		}
 
 		public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
 		{
+		}
+
+		public static void ApplyPendingMigrations(this WebApplication? app)
+		{
+			if (app == null)
+			{
+				throw new ArgumentNullException(nameof(app));
+			}
+
+			// NOTE: do not use this approach in applications that runs in more than one instance.
+			using (var scope = app.Services.CreateScope())
+			{
+				var context = scope.ServiceProvider.GetRequiredService<StickyNotesContext>();
+				if (context.Database.GetPendingMigrations().Any())
+				{
+					context.Database.Migrate();
+				}
+			}
 		}
 
 		public static void UseMiddlewares(this WebApplication? app)

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickyNotesCore.API", "Stic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickyNotesCore.Shared", "StickyNotesCore.Shared\StickyNotesCore.Shared.csproj", "{BF38E3E0-36A2-4325-9BA8-D59189476ADA}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{533084DD-AB91-4A6F-A234-243E77E9FA8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BF38E3E0-36A2-4325-9BA8-D59189476ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF38E3E0-36A2-4325-9BA8-D59189476ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF38E3E0-36A2-4325-9BA8-D59189476ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

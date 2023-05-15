@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+
+  # Sticky Notes API
+  stickynotescore.api:
+    build:
+      context: .
+      dockerfile: StickyNotesCore.API/Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__StickyNotes=Server=db;Database=StickyNotes;User=sa;Password=pa$$w0rd123!*;TrustServerCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:5000
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  # SQL Server Database
+  db:
+    image: mcr.microsoft.com/mssql/server
+    ports:
+      - '1433:1433'
+    environment:
+      - SA_PASSWORD=pa$$w0rd123!*
+      - ACCEPT_EULA=Y
