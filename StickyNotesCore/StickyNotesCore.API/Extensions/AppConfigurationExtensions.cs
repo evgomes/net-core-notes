@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using StickyNotesCore.API.Controllers.Configuration;
 using StickyNotesCore.API.Domain.Data.Contexts;
@@ -48,6 +49,15 @@ namespace StickyNotesCore.API.Extensions
 			{
 				options.UseSqlServer(configuration.GetConnectionString("StickyNotes"));
 			});
+		}
+
+		public static void AddInfrastructureDependencies(this IServiceCollection services, IConfiguration configuration)
+		{
+			// MediatR
+			services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining<Program>());
+
+			// AutoMapper
+			services.AddAutoMapper(options => options.AllowNullCollections = true, typeof(Program).Assembly);
 		}
 
 		public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
