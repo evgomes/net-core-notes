@@ -5,8 +5,6 @@
 	--app-text-primary: #fff;
 }
 
---primary-color
-
 body {
 	margin: 0;
 	font-family: 'Livvic', sans-serif;
@@ -40,6 +38,10 @@ body {
 		color: var(--app-text-primary);
 		text-align: center;
 	}
+
+.app-note-card {
+	min-height: 300px;
+}
 
 /* Buttons */
 .app-button.btn {
