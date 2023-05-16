@@ -5,6 +5,7 @@ using StickyNotesCore.API.Commands.Notes;
 using StickyNotesCore.API.Domain.Commands.Notes;
 using StickyNotesCore.API.Domain.Data.Contexts;
 using StickyNotesCore.API.Domain.Models;
+using StickyNotesCore.Shared.Responses;
 
 namespace StickyNotes.API.Tests.Commands.Notes
 {
@@ -41,6 +42,7 @@ namespace StickyNotes.API.Tests.Commands.Notes
 
 			// Assert
 			Assert.False(response.Success);
+			Assert.Equal(Status.NotFound, response.Status);
 			Assert.Matches("not found", response.Message);
 		}
 
@@ -69,6 +71,7 @@ namespace StickyNotes.API.Tests.Commands.Notes
 
 			// Assert
 			Assert.True(response.Success);
+			Assert.Equal(Status.Patched, response.Status);
 			Assert.NotNull(response.Resource);
 			Assert.NotNull(response.Resource.ModifiedOn);
 			Assert.Equal(Guid.Parse("b87762bb-3340-4baa-9f94-529ba9a3a44c"), response.Resource.Id);

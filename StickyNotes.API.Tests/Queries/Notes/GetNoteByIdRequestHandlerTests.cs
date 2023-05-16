@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Moq;
+﻿using Moq;
 using Moq.EntityFrameworkCore;
-using StickyNotesCore.API.Domain.Commands.Notes;
 using StickyNotesCore.API.Domain.Data.Contexts;
 using StickyNotesCore.API.Domain.Models;
 using StickyNotesCore.API.Domain.Queries.Notes;
@@ -39,6 +37,7 @@ namespace StickyNotes.API.Tests.Queries.Notes
 
 			// Assert
 			Assert.False(response.Success);
+			Assert.Equal(Status.NotFound, response.Status);
 			Assert.Matches("not found", response.Message);
 		}
 
@@ -67,6 +66,7 @@ namespace StickyNotes.API.Tests.Queries.Notes
 			var response = await _commandHandler.Handle(query, CancellationToken.None);
 
 			Assert.True(response.Success);
+			Assert.Equal(Status.Completed, response.Status);
 			Assert.NotNull(response.Resource);
 			Assert.Equal(Guid.Parse("b87762bb-3340-4baa-9f94-529ba9a3a44c"), response.Resource.Id);
 			Assert.Equal("Sample Note", response.Resource.Text);

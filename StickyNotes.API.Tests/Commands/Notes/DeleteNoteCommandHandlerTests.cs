@@ -42,6 +42,7 @@ namespace StickyNotes.API.Tests.Commands.Notes
 
 			// Assert
 			Assert.False(response.Success);
+			Assert.Equal(Status.NotFound, response.Status);
 			Assert.Matches("not found", response.Message);
 		}
 

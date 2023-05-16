@@ -5,6 +5,7 @@ using StickyNotesCore.API.Commands.Notes;
 using StickyNotesCore.API.Domain.Commands.Notes;
 using StickyNotesCore.API.Domain.Data.Contexts;
 using StickyNotesCore.API.Domain.Models;
+using StickyNotesCore.Shared.Responses;
 
 namespace StickyNotes.API.Tests.Commands.Notes
 {
@@ -48,7 +49,9 @@ namespace StickyNotes.API.Tests.Commands.Notes
 
 			// Assert
 			Assert.True(response.Success);
+			Assert.Equal(Status.Created, response.Status);
 			Assert.NotNull(response.Resource);
+
 			Assert.NotEqual(Guid.Empty, response.Resource.Id);
 			Assert.NotEqual(default, response.Resource.CreatedOn);
 			Assert.Equal("Sample Text", response.Resource.Text);
