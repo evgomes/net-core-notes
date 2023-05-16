@@ -2,8 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StickyNotesCore.API.Domain.Commands.Notes;
+using StickyNotesCore.API.Domain.Data.Queries.Notes;
+using StickyNotesCore.API.Domain.Queries.Notes;
 using StickyNotesCore.Shared.Resources.Errors;
 using StickyNotesCore.Shared.Resources.Notes;
+using StickyNotesCore.Shared.Resources.Queries;
 
 namespace StickyNotesCore.API.Controllers
 {
@@ -66,6 +69,22 @@ namespace StickyNotesCore.API.Controllers
 		public async Task<IActionResult> DeleteAsync(Guid id)
 		{
 			return ApiResponse(await _mediator.Send(new DeleteNoteCommand { Id = id }));
+		}
+
+		/// <summary>
+		/// Lists all the sticky notes that match provided filters.
+		/// </summary>
+		/// <param name="queryResource">Resource containing query filters.</param>
+		/// <returns>The query result.</returns>
+		[HttpGet]
+		[ProducesResponseType(typeof(QueryResultResource<NoteResource>), 200)]
+		[ProducesResponseType(typeof(ErrorResource), 400)]
+		[ProducesResponseType(typeof(ErrorResource), 401)]
+		[ProducesResponseType(typeof(ErrorResource), 403)]
+		public async Task<IActionResult> ListAsync([FromQuery] NotesQueryResource queryResource)
+		{
+			var queryResult = await _mediator.Send(new ListNotesRequest { Query = _mapper.Map<NotesQuery>(queryResource) });
+			return Ok(_mapper.Map<QueryResultResource<NoteResource>>(queryResult));
 		}
 	}
 }
