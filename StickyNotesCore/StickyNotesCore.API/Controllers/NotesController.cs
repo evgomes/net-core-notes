@@ -34,5 +34,25 @@ namespace StickyNotesCore.API.Controllers
 			var noteResource = (response.Success) ? _mapper.Map<NoteResource>(response.Resource) : null;
 			return ApiResponse(response, $"/api/notes/{response?.Resource?.Id}", noteResource);
 		}
+
+		/// <summary>
+		/// Updates a sticky note according to request data.
+		/// </summary>
+		/// <param name="id">Sticky note ID.</param>
+		/// <param name="resource">Resource containing sticky note data to patch.</param>
+		/// <returns>Response for the request.</returns>
+		[HttpPatch("{id}")]
+		[ProducesResponseType(typeof(NoteResource), 200)]
+		[ProducesResponseType(typeof(ErrorResource), 400)]
+		public async Task<IActionResult> PatchAsync(Guid id, [FromBody] PatchNoteResource resource)
+		{
+			var command = _mapper.Map<PatchNoteCommand>(resource);
+			command.Id = id;
+
+			var response = await _mediator.Send(command);
+
+			var articleResource = (response.Success) ? _mapper.Map<NoteResource>(response.Resource) : null;
+			return ApiResponse(response, resource: articleResource);
+		}
 	}
 }

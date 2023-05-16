@@ -7,10 +7,11 @@ namespace StickyNotesCore.API.Mapping
 {
 	public class Maps : Profile
 	{
-        public Maps()
-        {
-            CreateMap<Note, NoteResource>();
-            CreateMap<CreateNoteResource, CreateNoteCommand>();
-        }
-    }
+		public Maps()
+		{
+			CreateMap<Note, NoteResource>();
+			CreateMap<CreateNoteResource, CreateNoteCommand>();
+			CreateMap<PatchNoteResource, PatchNoteCommand>();
+		}
+	}
 }
