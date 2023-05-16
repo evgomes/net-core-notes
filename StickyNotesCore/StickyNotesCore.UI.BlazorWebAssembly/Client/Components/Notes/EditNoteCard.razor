@@ -1,0 +1,175 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@using BlazorStrap;
+@using StickyNotesCore.Shared.Resources.Notes;
+
+@inject INotesApiClient _notesApiClient
+@inject IBlazorStrap _blazorStrap
+
+@if (Note != null)
+{
+	<EditForm EditContext="_editContext" OnSubmit="OnEdit">
+
+		<BSCard Class="app-card mb-4">
+			<BSCard CardType="BlazorStrap.CardType.Header" Class="d-flex flex-column">
+				<span>
+					Created on: <ToLocal DateTime="Note.CreatedOn" Format="mm/dd/yyyy h:MM tt"></ToLocal>
+				</span>
+
+			</BSCard>
+			<BSCard CardType="BlazorStrap.CardType.Body">
+				<div class="mb-3">
+					<label for="@($"note_{_formId}")" class="form-label">Text</label>
+					<textarea name="@($"note_{_formId}")" class="form-control" cols="1" rows="3" placeholder="Enter the note text." @bind="_formModel.Text" />
+					<ValidationMessage For="() => _formModel.Text" class="small text-danger" />
+					@if (Note.ModifiedOn != null)
+					{
+						<span class="small">
+							Last modified on: <ToLocal DateTime="Note.ModifiedOn.Value" Format="mm/dd/yyyy h:MM tt"></ToLocal>
+						</span>
+					}
+				</div>
+			</BSCard>
+			<BSCard CardType="BlazorStrap.CardType.Footer" Class="d-flex justify-content-between">
+				<BSButton IsSubmit="false" Color="BlazorStrap.BSColor.Danger" Class="app-button w-100 me-3" OnClick="OnDelete" IsDisabled="(_saving || _deleting)">
+					@if (_deleting)
+					{
+						<span>Deleting... </span>
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+					}
+					else
+					{
+						<span>Delete</span>
+					}
+				</BSButton>
+				<BSButton IsSubmit="true" Color="BlazorStrap.BSColor.Primary" Class="app-button w-100" IsDisabled="(_saving || _deleting)">
+					@if (_saving)
+					{
+						<span>Saving... </span>
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+					}
+					else
+					{
+						<span>Save</span>
+					}
+				</BSButton>
+			</BSCard>
+		</BSCard>
+	</EditForm>
+}
+
+@code {
+	#region Parameters
+	[Parameter]
+	public NoteResource? Note { get; set; }
+
+	[Parameter]
+	public EventCallback<NoteResource> OnEdited { get; set; }
+
+	[Parameter]
+	public EventCallback<NoteResource> OnDeleted { get; set; }
+	#endregion
+
+	#region Fields
+	private Guid _formId = Guid.NewGuid();
+
+	private EditNoteFormModel _formModel = new();
+	private EditContext? _editContext;
+	private bool _saving = false;
+	private bool _deleting = false;
+	#endregion
+
+	#region Events
+	protected override void OnInitialized()
+	{
+		_editContext = new EditContext(_formModel);
+		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		_formModel.Configure(Note);
+	}
+
+	private async Task OnEdit()
+	{
+		try
+		{
+			if (!_editContext!.Validate())
+			{
+				return;
+			}
+
+			_saving = true;
+			StateHasChanged();
+
+			(var success, var message, var note) = await _notesApiClient.PatchAsync(Note!.Id, new PatchNoteResource
+				{
+					Text = _formModel.Text?.Trim(),
+				});
+
+			if (!success)
+			{
+				_blazorStrap.Toaster.Error(message!);
+				return;
+			}
+
+			_blazorStrap.Toaster.Success("The note has been updated.");
+			_formModel = new();
+			_editContext = new EditContext(_formModel);
+
+			await OnEdited.InvokeAsync(note);
+		}
+		finally
+		{
+			_saving = false;
+			StateHasChanged();
+		}
+	}
+
+	private async Task OnDelete()
+	{
+		try
+		{
+			_deleting = true;
+			StateHasChanged();
+
+			(var success, var message) = await _notesApiClient.DeleteAsync(Note!.Id);
+			if (!success)
+			{
+				_blazorStrap.Toaster.Error(message!);
+				return;
+			}
+
+			_blazorStrap.Toaster.Success("The note has been deleted.");
+			_formModel = new();
+			_editContext = new EditContext(_formModel);
+
+			await OnDeleted.InvokeAsync(Note);
+		}
+		finally
+		{
+			_deleting = false;
+			StateHasChanged();
+		}
+	}
+	#endregion
+
+	#region Form Model
+	class EditNoteFormModel
+	{
+		[Required(ErrorMessage = "The text is required.")]
+		[MaxLength(255, ErrorMessage = "The text must not have more than 255 characters.")]
+		public string? Text { get; set; }
+
+		public void Configure(NoteResource? note)
+		{
+			if (note == null)
+			{
+				return;
+			}
+
+			Text = note.Text;
+		}
+	}
+	#endregion
+}

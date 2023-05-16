@@ -7,7 +7,7 @@ using StickyNotesCore.API.Domain.Models;
 using StickyNotesCore.API.Domain.Queries.Notes;
 using StickyNotesCore.API.Queries.Notes;
 
-namespace StickyNotes.API.Tests.Queries.Notes
+namespace StickyNotesCore.API.Tests.Tests.Queries.Notes
 {
 	public class ListNotesRequestHandlerTests
 	{

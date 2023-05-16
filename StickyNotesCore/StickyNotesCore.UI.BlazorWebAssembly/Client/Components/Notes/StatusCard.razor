@@ -1,0 +1,41 @@
+﻿@using StickyNotesCore.Shared.Resources.Notes;
+
+<BSCard Class="app-card">
+	<BSCard CardType="BlazorStrap.CardType.Header">
+		Status
+	</BSCard>
+	<BSCard CardType="BlazorStrap.CardType.Body">
+		<p>
+			<strong>Total notes:</strong> @(Notes?.Count ?? 0)
+		</p>
+		<p>
+			<strong>Last Update:&nbsp;</strong>
+			@if (_lastUpdateDate != null)
+			{
+					<ToLocal DateTime="_lastUpdateDate.Value" Format="mm/dd/yyyy h:MM tt"></ToLocal>
+			}
+			else
+			{
+				@:-
+			}
+		</p>
+	</BSCard>
+</BSCard>
+
+@code {
+	[Parameter]
+	public List<NoteResource>? Notes { get; set; }
+
+	private DateTime? _lastUpdateDate = null;
+
+	protected override void OnParametersSet()
+	{
+		if (Notes == null || Notes.Count == 0)
+		{
+			_lastUpdateDate = null;
+			return;
+		}
+
+		_lastUpdateDate = Notes?.Max(note => note.ModifiedOn) ?? Notes?.Max(note => note.CreatedOn);
+	}
+}

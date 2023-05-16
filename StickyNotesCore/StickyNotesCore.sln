@@ -7,13 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.API", "Stic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.Shared", "StickyNotesCore.Shared\StickyNotesCore.Shared.csproj", "{BF38E3E0-36A2-4325-9BA8-D59189476ADA}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{533084DD-AB91-4A6F-A234-243E77E9FA8F}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "..\docker-compose.dcproj", "{533084DD-AB91-4A6F-A234-243E77E9FA8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{93381962-EA02-4720-A015-287420E1D7DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{284C3D7C-52B3-43B9-82FF-AFD71B840613}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickyNotes.API.Tests", "..\StickyNotes.API.Tests\StickyNotes.API.Tests.csproj", "{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.API.Tests", "StickyNotes.API.Tests\StickyNotesCore.API.Tests.csproj", "{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{F141B8BF-6485-4996-9D0F-EFF3068CC548}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.UI.BlazorWebAssembly.Server", "StickyNotesCore.UI.BlazorWebAssembly\Server\StickyNotesCore.UI.BlazorWebAssembly.Server.csproj", "{494DB3B2-5F17-4844-8288-D545E296123D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.UI.BlazorWebAssembly.Client", "StickyNotesCore.UI.BlazorWebAssembly\Client\StickyNotesCore.UI.BlazorWebAssembly.Client.csproj", "{AC13502D-92AC-4A0A-832E-CD7D2AA7CA80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +43,14 @@ Global
 		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494DB3B2-5F17-4844-8288-D545E296123D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494DB3B2-5F17-4844-8288-D545E296123D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494DB3B2-5F17-4844-8288-D545E296123D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494DB3B2-5F17-4844-8288-D545E296123D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC13502D-92AC-4A0A-832E-CD7D2AA7CA80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC13502D-92AC-4A0A-832E-CD7D2AA7CA80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC13502D-92AC-4A0A-832E-CD7D2AA7CA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC13502D-92AC-4A0A-832E-CD7D2AA7CA80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +59,8 @@ Global
 		{9903CDE9-A4AC-43FC-B735-1E91742BFAE9} = {93381962-EA02-4720-A015-287420E1D7DA}
 		{BF38E3E0-36A2-4325-9BA8-D59189476ADA} = {284C3D7C-52B3-43B9-82FF-AFD71B840613}
 		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F} = {93381962-EA02-4720-A015-287420E1D7DA}
+		{494DB3B2-5F17-4844-8288-D545E296123D} = {F141B8BF-6485-4996-9D0F-EFF3068CC548}
+		{AC13502D-92AC-4A0A-832E-CD7D2AA7CA80} = {F141B8BF-6485-4996-9D0F-EFF3068CC548}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FDE358F3-AE20-4CAE-AA49-1CEF2D27F788}

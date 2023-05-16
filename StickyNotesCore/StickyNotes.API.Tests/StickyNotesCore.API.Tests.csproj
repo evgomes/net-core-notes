@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StickyNotesCore\StickyNotesCore.API\StickyNotesCore.API.csproj" />
+    <ProjectReference Include="..\StickyNotesCore.API\StickyNotesCore.API.csproj" />
   </ItemGroup>
 
 </Project>

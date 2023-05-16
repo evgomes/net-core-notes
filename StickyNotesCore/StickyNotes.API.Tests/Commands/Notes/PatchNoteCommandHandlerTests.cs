@@ -7,7 +7,7 @@ using StickyNotesCore.API.Domain.Data.Contexts;
 using StickyNotesCore.API.Domain.Models;
 using StickyNotesCore.Shared.Responses;
 
-namespace StickyNotes.API.Tests.Commands.Notes
+namespace StickyNotesCore.API.Tests.Tests.Commands.Notes
 {
 	public class PatchNoteCommandHandlerTests
 	{

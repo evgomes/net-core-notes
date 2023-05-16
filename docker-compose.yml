@@ -5,18 +5,32 @@ services:
   stickynotescore.api:
     build:
       context: .
-      dockerfile: StickyNotesCore.API/Dockerfile
+      dockerfile: StickyNotesCore/StickyNotesCore.API/Dockerfile
     ports:
       - 5000:5000
     depends_on:
       - db
     environment:
       - ConnectionStrings__StickyNotes=Server=db;Database=StickyNotes;User=sa;Password=pa$$w0rd123!*;TrustServerCertificate=true
+      - CORS__ClientBaseAddress=https://localhost:5001
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:5000
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  # Sticky Notes UI
+  stickynotescore.ui.blazor:
+    build:
+      context: .
+      dockerfile: StickyNotesCore/StickyNotesCore.UI.BlazorWebAssembly/Server/Dockerfile
+    ports:
+      - 5001:5001
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:5001
 
   # SQL Server Database
   db:

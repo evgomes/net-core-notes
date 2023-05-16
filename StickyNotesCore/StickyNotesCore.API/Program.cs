@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service dependencies.
-builder.Services.AddApiDependencies();
+builder.Services.AddApiDependencies(builder.Configuration);
 builder.Services.AddDatabaseDependencies(builder.Configuration);
 builder.Services.AddInfrastructureDependencies(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);

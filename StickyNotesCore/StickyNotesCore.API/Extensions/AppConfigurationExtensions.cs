@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using StickyNotesCore.API.Controllers.Configuration;
 using StickyNotesCore.API.Domain.Data.Contexts;
@@ -10,7 +9,9 @@ namespace StickyNotesCore.API.Extensions
 {
 	public static class AppConfigurationExtensions
 	{
-		public static void AddApiDependencies(this IServiceCollection services)
+		public const string CORS_POLICY = "ApiCorsPolicy";
+
+		public static void AddApiDependencies(this IServiceCollection services, IConfiguration configuration)
 		{
 			// Configures the standar error response in case of failures.
 			services.AddControllersWithViews().ConfigureApiBehaviorOptions(option =>
@@ -40,6 +41,16 @@ namespace StickyNotesCore.API.Extensions
 				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 				options.IncludeXmlComments(xmlPath);
+			});
+
+			// CORS options
+			var uiBaseAddress = configuration.GetValue<string>("CORS:ClientBaseAddress") ?? throw new ArgumentNullException("cors");
+			services.AddCors(options =>
+			{
+				options.AddPolicy(CORS_POLICY, policy =>
+				{
+					policy.WithOrigins(uiBaseAddress).AllowAnyMethod().AllowAnyHeader();
+				});
 			});
 		}
 
@@ -100,6 +111,8 @@ namespace StickyNotesCore.API.Extensions
 				options.SwaggerEndpoint("/swagger/v1/swagger.json", "Sticky Notes API");
 				options.DocumentTitle = "Sticky Notes API";
 			});
+
+			app.UseCors(CORS_POLICY);
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();

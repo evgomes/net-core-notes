@@ -1,0 +1,101 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@using BlazorStrap;
+@using StickyNotesCore.Shared.Resources.Notes;
+
+@inject INotesApiClient _notesApiClient
+@inject IBlazorStrap _blazorStrap
+
+<EditForm EditContext="_editContext" OnSubmit="OnSubmit">
+	<BSCard Class="app-card mb-4">
+		<BSCard CardType="BlazorStrap.CardType.Header">
+			Add Note
+		</BSCard>
+		<BSCard CardType="BlazorStrap.CardType.Body">
+			<DataAnnotationsValidator />
+			<div class="mb-3">
+				<label for="note" class="form-label">Text</label>
+				<textarea name="note" class="form-control" cols="1" rows="3" placeholder="Enter the note text." @bind="_formModel.Text" />
+				<ValidationMessage For="() => _formModel.Text" class="small text-danger" />
+			</div>
+		</BSCard>
+		<BSCard CardType="BlazorStrap.CardType.Footer">
+			<BSButton IsSubmit="true" Color="BlazorStrap.BSColor.Primary" Class="app-button w-100">
+				@if (_saving)
+				{
+					<span>Saving... </span>
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+				}
+				else
+				{
+					<span>Add Note</span>
+				}
+			</BSButton>
+		</BSCard>
+	</BSCard>
+</EditForm>
+
+@code {
+	#region Parameters
+	[Parameter]
+	public EventCallback<NoteResource> OnAdded { get; set; }
+	#endregion
+
+	#region Fields
+	private AddNoteFormModel _formModel = new();
+	private EditContext? _editContext;
+	private bool _saving = false;
+	#endregion
+
+	#region Events
+	protected override void OnInitialized()
+	{
+		_editContext = new EditContext(_formModel);
+		base.OnInitialized();
+	}
+
+	private async Task OnSubmit()
+	{
+		try
+		{
+			if (!_editContext!.Validate())
+			{
+				return;
+			}
+
+			_saving = true;
+			StateHasChanged();
+
+			(var success, var message, var note) = await _notesApiClient.PostAsync(new CreateNoteResource
+			{
+				Text = _formModel.Text?.Trim(),
+			});
+
+			if (!success)
+			{
+				_blazorStrap.Toaster.Error(message!);
+				return;
+			}
+
+			_blazorStrap.Toaster.Success("The note has been added.");
+			_formModel = new();
+			_editContext = new EditContext(_formModel);
+
+			await OnAdded.InvokeAsync(note);
+		}
+		finally
+		{
+			_saving = false;
+			StateHasChanged();
+		}
+	}
+	#endregion
+
+	#region Form Model
+	class AddNoteFormModel
+	{
+		[Required(ErrorMessage = "The text is required.")]
+		[MaxLength(255, ErrorMessage = "The text must not have more than 255 characters.")]
+		public string? Text { get; set; }
+	}
+	#endregion
+}

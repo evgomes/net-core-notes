@@ -1,0 +1,71 @@
+﻿@page "/"
+
+@using StickyNotesCore.Shared.Resources.Notes;
+@using StickyNotesCore.Shared.Resources.Queries;
+
+@inject INotesApiClient _notesApiClient
+
+<PageTitle>Index</PageTitle>
+
+<BSContainer Container="Container.Fluid">
+	<BSRow>
+		<BSCol Column="12" ColumnLarge="3">
+			<AddNoteCard OnAdded="OnNoteAdded" />
+			<StatusCard Notes="_notes" />
+		</BSCol>
+		<BSCol>
+			<BSRow>
+				@foreach (var note in _notes)
+				{
+					<BSCol Column="12" ColumnLarge="4">
+						<EditNoteCard Note="note" OnEdited="OnNoteEdited" OnDeleted="OnNoteDeleted" />
+					</BSCol>
+				}
+			</BSRow>
+		</BSCol>
+	</BSRow>
+</BSContainer>
+
+@code {
+	#region Fields
+	private List<NoteResource> _notes = new();
+	#endregion
+
+	#region Events
+	protected override async Task OnParametersSetAsync()
+	{
+		await LoadNotesAsync();
+	}
+
+	private void OnNoteAdded(NoteResource note)
+	{
+		_notes.Add(note);
+	}
+
+	private void OnNoteEdited(NoteResource note)
+	{
+		var index = _notes.FindIndex(x => x.Id == note.Id);
+		_notes[index] = note;
+	}
+
+	private void OnNoteDeleted(NoteResource note)
+	{
+		_notes.RemoveAll(x => x.Id == note.Id);
+	}
+	#endregion
+
+	#region Methods
+	private async Task LoadNotesAsync()
+	{
+		var notes = await _notesApiClient.ListAsync(new NotesQueryResource
+			{
+				Page = 1,
+				ItemsPerPage = int.MaxValue,
+				OrderBy = nameof(NoteResource.CreatedOn),
+				SortOrder = SortOrderResource.Ascending,
+			});
+
+		_notes = notes.Items;
+	}
+	#endregion
+}
