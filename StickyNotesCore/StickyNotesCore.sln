@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickyNotesCore.API", "StickyNotesCore.API\StickyNotesCore.API.csproj", "{9903CDE9-A4AC-43FC-B735-1E91742BFAE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.API", "StickyNotesCore.API\StickyNotesCore.API.csproj", "{9903CDE9-A4AC-43FC-B735-1E91742BFAE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickyNotesCore.Shared", "StickyNotesCore.Shared\StickyNotesCore.Shared.csproj", "{BF38E3E0-36A2-4325-9BA8-D59189476ADA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickyNotesCore.Shared", "StickyNotesCore.Shared\StickyNotesCore.Shared.csproj", "{BF38E3E0-36A2-4325-9BA8-D59189476ADA}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{533084DD-AB91-4A6F-A234-243E77E9FA8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{93381962-EA02-4720-A015-287420E1D7DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{284C3D7C-52B3-43B9-82FF-AFD71B840613}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickyNotes.API.Tests", "..\StickyNotes.API.Tests\StickyNotes.API.Tests.csproj", "{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +33,18 @@ Global
 		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533084DD-AB91-4A6F-A234-243E77E9FA8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9903CDE9-A4AC-43FC-B735-1E91742BFAE9} = {93381962-EA02-4720-A015-287420E1D7DA}
+		{BF38E3E0-36A2-4325-9BA8-D59189476ADA} = {284C3D7C-52B3-43B9-82FF-AFD71B840613}
+		{AD4EE94A-5F49-4DF7-8FA1-F3C165D9955F} = {93381962-EA02-4720-A015-287420E1D7DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FDE358F3-AE20-4CAE-AA49-1CEF2D27F788}

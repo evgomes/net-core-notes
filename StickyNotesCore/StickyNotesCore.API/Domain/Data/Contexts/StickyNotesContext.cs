@@ -5,9 +5,13 @@ namespace StickyNotesCore.API.Domain.Data.Contexts
 {
 	public class StickyNotesContext : DbContext
 	{
-		public DbSet<Note> Notes { get; set; }
+		public virtual DbSet<Note> Notes { get; set; }
 
-		public StickyNotesContext(DbContextOptions<StickyNotesContext> options) : base(options)
+        public StickyNotesContext()
+        {
+        }
+
+        public StickyNotesContext(DbContextOptions<StickyNotesContext> options) : base(options)
 		{
 		}
 
