@@ -9,10 +9,10 @@ namespace StickyNotesCore.API.Commands.Notes
 {
 	public class PatchNoteCommandHandler : IRequestHandler<PatchNoteCommand, StatusResponse<Note>>
 	{
-		private readonly ILogger<CreateNoteCommandHandler> _logger;
 		private readonly StickyNotesContext _context;
-
-		public PatchNoteCommandHandler(StickyNotesContext context, ILogger<CreateNoteCommandHandler> logger)
+		private readonly ILogger<PatchNoteCommandHandler> _logger;
+		
+		public PatchNoteCommandHandler(StickyNotesContext context, ILogger<PatchNoteCommandHandler> logger)
 		{
 			_context = context;
 			_logger = logger;

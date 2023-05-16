@@ -54,5 +54,18 @@ namespace StickyNotesCore.API.Controllers
 			var articleResource = (response.Success) ? _mapper.Map<NoteResource>(response.Resource) : null;
 			return ApiResponse(response, resource: articleResource);
 		}
+
+		/// <summary>
+		/// Deletes a sticky note using the note's ID.
+		/// </summary>
+		/// <param name="id">Note ID.</param>
+		/// <returns>Response for the request.</returns>
+		[HttpDelete("{id}")]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorResource), 400)]
+		public async Task<IActionResult> DeleteAsync(Guid id)
+		{
+			return ApiResponse(await _mediator.Send(new DeleteNoteCommand { Id = id }));
+		}
 	}
 }
