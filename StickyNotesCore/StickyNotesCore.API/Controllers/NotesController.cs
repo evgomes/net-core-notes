@@ -86,5 +86,20 @@ namespace StickyNotesCore.API.Controllers
 			var queryResult = await _mediator.Send(new ListNotesRequest { Query = _mapper.Map<NotesQuery>(queryResource) });
 			return Ok(_mapper.Map<QueryResultResource<NoteResource>>(queryResult));
 		}
+
+		/// <summary>
+		/// Retrieves a sticky note by its ID.
+		/// </summary>
+		/// <param name="id">Note ID.</param>
+		/// <returns>Response for the request.</returns>
+		[HttpGet("{id}")]
+		[ProducesResponseType(typeof(NoteResource), 200)]
+		[ProducesResponseType(typeof(ErrorResource), 400)]
+		public async Task<IActionResult> GetByIdAsync(Guid id)
+		{
+			var response = await _mediator.Send(new GetNoteByIdRequest { Id = id });
+			var noteResource = (response.Success) ? _mapper.Map<NoteResource>(response.Resource) : null;
+			return ApiResponse(response, resource: noteResource);
+		}
 	}
 }
