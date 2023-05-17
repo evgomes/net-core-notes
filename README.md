@@ -51,8 +51,10 @@ Please note that authentication and authorization for the API routes have not be
 
 To run the application, you need Docker and Docker Compose installed. Open the solution in Visual Studio and run the application using Docker Compose.
 
-Navigate to `https://localhost:5000/swagger` to view the Swagger documentation for the API routes. Access `https://localhost:5001/` to see the UI, where you can add, edit, and remove sticky notes. All data is saved in a SQL Server database running in a Docker container.
+Navigate to `https://localhost:5000/swagger` to view the Swagger documentation for the API routes.
 
 ![Swagger View](https://raw.githubusercontent.com/evgomes/net-core-notes/main/images/swagger-view.png)
+
+Access `https://localhost:5001/` to see the UI, where you can add, edit, and remove sticky notes. All data is saved in a SQL Server database running in a Docker container.
 
 ![UI View](https://raw.githubusercontent.com/evgomes/net-core-notes/main/images/ui-view.png)
