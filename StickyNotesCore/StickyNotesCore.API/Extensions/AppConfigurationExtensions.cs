@@ -114,7 +114,11 @@ namespace StickyNotesCore.API.Extensions
 
 			app.UseCors(CORS_POLICY);
 
-			app.UseHttpsRedirection();
+			if (!app.Environment.IsDevelopment())
+			{
+				app.UseHttpsRedirection();
+			}
+
 			app.UseStaticFiles();
 
 			app.UseRouting();

@@ -2,8 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
@@ -12,7 +11,7 @@ COPY ["StickyNotesCore.UI.BlazorWebAssembly/Client/StickyNotesCore.UI.BlazorWebA
 COPY ["StickyNotesCore.Shared/StickyNotesCore.Shared.csproj", "StickyNotesCore.Shared/"]
 RUN dotnet restore "StickyNotesCore.UI.BlazorWebAssembly/Server/StickyNotesCore.UI.BlazorWebAssembly.Server.csproj"
 COPY . .
-WORKDIR "/src/StickyNotesCore.UI.BlazorWebAssembly/Server"
+WORKDIR "StickyNotesCore.UI.BlazorWebAssembly/Server"
 RUN dotnet build "StickyNotesCore.UI.BlazorWebAssembly.Server.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -21,4 +20,4 @@ RUN dotnet publish "StickyNotesCore.UI.BlazorWebAssembly.Server.csproj" -c Relea
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "StickyNotesCore.UI.BlazorWebAssembly.Server.dll"]
+ENTRYPOINT ["dotnet", "StickyNotesCore.UI.BlazorWebAssembly.Server.dll", "--urls", "http://*:5001"]
