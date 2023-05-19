@@ -15,6 +15,7 @@ The Web API is built using the following technologies:
 * [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) - The most commonly used ORM for .NET applications.
 * [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) - Database used to store the sticky notes.
 * [xUnit](https://xunit.net/) - Testing library for writing unit tests.
+* [Playwright](https://playwright.dev/) - End-to-end testing library to validate the Blazor app output.
 
 The UI is built using:
 
